@@ -3,6 +3,7 @@ import time
 import shutil
 
 while True:
+    os.system('clear')
     print("""
     ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓████████▓▒░▒▓███████▓▒░  
     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░ 
@@ -15,8 +16,9 @@ while True:
                                                                                                             
     """)
     print("[1] List last Keylogs.txt")
-    print("[2] Activate Keylogger")
-    print("[3] DELETE ALL LOGS")
+    print("[2] Activate Keylogger [root necessary]")
+    print("[3] DELETE ALL LOGS [root necessary]")
+    print("[4] Read a log File")
     try:
         opt = str(input("Choose a option for your PyLogger: \n"))
         match opt:
@@ -32,15 +34,13 @@ while True:
                     print("ERROR: File NOT found")
                 print("")
                 print("----------------------")
-                opt = str(input("[0] restart program \n[enter] close program\n>> "))
-                if opt == "":
-                    break
-                
+                input("Press enter to continue")
             case "2":
                 print("[2] Activate Keylogger [selected]")
                 print("")
                 pathK = str(input("Path of the Keylogger \n[1] Use common path\n[2] Inform the path where the keylogger is located\n>>> "))
                 match pathK:
+                    #Using Normal Path
                     case "1":
                         print("")
                         print("Using normal path")
@@ -49,6 +49,7 @@ while True:
                             input("Use CTRL + C to kill keylogger")
                         except KeyboardInterrupt:
                             break
+                    #Using Custom Path
                     case "2":
                         print("")
                         print("Please insert the path: ")
@@ -75,11 +76,28 @@ while True:
                     case _:
                         print("----Stoping exclusion process-------")
                 time.sleep(3)
+            case "4":
+                print("[4] Read a log File [selected]")
+                print("")
+                print("------------------------------")
+                j = 0
+                ldir = []
+                for i in os.listdir('logs'):
+
+                    print(f"[{j}] {i}")
+                    ldir.append(i)
+                    j += 1
+                optDir = int(input("Choose witch file you wanna read: "))
+                fileto = "logs/" + ldir[optDir]
+                with open(fileto, 'r') as f:
+                    print(f.readlines())
+                print("")
+                input("Press enter to continue")
+                
             case _:
                 print("!! Sorry this is not a Option !!")
                 time.sleep(2)
-                os.system('cls')
     except KeyboardInterrupt:
         print("")
-        print("invalid input, closing")
+        print("Keyboard Interrupted, closing")
         break
