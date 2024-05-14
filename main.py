@@ -87,12 +87,17 @@ while True:
                     print(f"[{j}] {i}")
                     ldir.append(i)
                     j += 1
-                optDir = int(input("Choose witch file you wanna read: "))
-                fileto = "logs/" + ldir[optDir]
-                with open(fileto, 'r') as f:
-                    print(f.readlines())
-                print("")
-                input("Press enter to continue")
+                if j == 0:
+                    print("There's no file to be read")
+                    time.sleep(5)
+                else:
+
+                    optDir = int(input("Choose witch file you wanna read: "))
+                    fileto = "logs/" + ldir[optDir]
+                    with open(fileto, 'r') as f:
+                        print(f.readlines())
+                    print("")
+                    input("Press enter to continue")
                 
             case _:
                 print("!! Sorry this is not a Option !!")
